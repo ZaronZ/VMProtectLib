@@ -22,14 +22,17 @@ void TestProtection()
 void TestStrings()
 {
 	VMProtect vmp;
-	const char* str2 = VMProtect::String(vmp, "test2");
-	const char* str1 = VMProtect::String("test1");
-	printf("str1 %s\n", str1);
-	printf("str2 %s\n", str2);
-	vmp.Clean();
+	const char* str1 = VMProtect::String(vmp, "test1");
+	const char* str2 = VMProtect::String(&vmp, "test2");
+	const char* str3 = VMProtect::String("test3");
+	printf("str1: %s\n", str1);
+	printf("str2: %s\n", str2);
+	printf("str3: %s\n", str3);
+	VMProtect::Clean(vmp);
 	printf("clean\n");
-	printf("str1 %s\n", str1);
-	printf("str2 %s\n", str2);
+	printf("str1: %s\n", str1);
+	printf("str2: %s\n", str2);
+	printf("str3: %s\n", str3);
 }
 
 int main()

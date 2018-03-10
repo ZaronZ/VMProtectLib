@@ -70,11 +70,43 @@ class VMProtect
 	size_t count;
 	void* strings[32];
 
-	const void* Add(const void* input);
+	static __declspec(noinline) const void* Add(VMProtect* _this,const void* input)
+	{
+		_this->strings[_this->count] = (void*)input;
+		_this->count++;
+
+		if (_this->count == _this->maxCount)
+		{
+			VMProtectFreeString(_this->strings[0]);
+			for (size_t i = 1; i < _this->count; i++)
+				_this->strings[i - 1] = _this->strings[i];
+			_this->count--;
+		}
+		return input;
+	}
 public:
-	VMProtect();
-	~VMProtect();
-	void Clean();
+	inline VMProtect()
+	{
+		this->maxCount = sizeof(strings) / sizeof(void*);
+		this->count = 0;
+	}
+
+	inline ~VMProtect()
+	{
+		Clean(this);
+	}
+
+	static __declspec(noinline) void Clean(VMProtect* _this)
+	{
+		for (size_t i = 0; i < _this->count; i++)
+			VMProtectFreeString(_this->strings[i]);
+		_this->count = 0;
+	}
+
+	static __declspec(noinline) void Clean(VMProtect &_this)
+	{
+		Clean(&_this);
+	}
 	
 	typedef enum
 	{
@@ -88,22 +120,22 @@ public:
 
 	static __forceinline const char* String(VMProtect* _this, const char* input)
 	{
-		return (const char*)_this->Add(VMProtectDecryptStringA(input));
+		return (const char*)_this->Add(_this, VMProtectDecryptStringA(input));
 	}
 
 	static __forceinline const wchar_t* String(VMProtect* _this, const wchar_t* input)
 	{
-		return (const wchar_t*)_this->Add(VMProtectDecryptStringW(input));
+		return (const wchar_t*)_this->Add(_this, VMProtectDecryptStringW(input));
 	}
 
 	static __forceinline const char* String(VMProtect &_this, const char* input)
 	{
-		return (const char*)_this.Add(VMProtectDecryptStringA(input));
+		return (const char*)_this.Add(&_this, VMProtectDecryptStringA(input));
 	}
 
 	static __forceinline const wchar_t* String(VMProtect &_this, const wchar_t* input)
 	{
-		return (const wchar_t*)_this.Add(VMProtectDecryptStringW(input));
+		return (const wchar_t*)_this.Add(&_this, VMProtectDecryptStringW(input));
 	}
 
 	static __forceinline const char* String(const char* input)
@@ -116,7 +148,7 @@ public:
 		return VMProtectDecryptStringW(input);
 	}
 
-	static bool IsProtected(unsigned char mask = 4)
+	static __declspec(noinline) bool IsProtected(unsigned char mask = 4)
 	{
 		bool result = true;
 
@@ -166,36 +198,3 @@ public:
 		VMProtectEnd();
 	}
 };
-
-inline VMProtect::VMProtect()
-{
-	this->maxCount = sizeof(strings) / sizeof(void*);
-	this->count = 0;
-}
-
-inline VMProtect::~VMProtect()
-{
-	this->Clean();
-}
-
-inline const void* VMProtect::Add(const void* input)
-{
-	this->strings[this->count] = (void*)input;
-	this->count++;
-
-	if (this->count == this->maxCount)
-	{
-		VMProtectFreeString(this->strings[0]);
-		for (size_t i = 1; i < this->count; i++)
-			this->strings[i - 1] = this->strings[i];
-		this->count--;
-	}
-	return input;
-}
-
-inline void VMProtect::Clean()
-{
-	for (size_t i = 0; i < this->count; i++)
-		VMProtectFreeString(this->strings[i]);
-	this->count = 0;
-}
