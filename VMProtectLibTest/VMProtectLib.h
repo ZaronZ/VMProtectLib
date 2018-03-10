@@ -1,34 +1,67 @@
 #pragma once
 
-#ifdef _DEBUG
-#ifdef _WIN64
-#pragma comment(lib, "VMProtectLib64d.lib")
-#else
-#pragma comment(lib, "VMProtectLib32d.lib")
-#endif
-#else
-#ifdef _WIN64
-#pragma comment(lib, "VMProtectLib64.lib")
-#else
-#pragma comment(lib, "VMProtectLib32.lib")
-#endif
-#endif
-
 #ifdef VMPROTECT
 #include "VMProtectSDK.h"
 #else
-void VMProtectBegin(const char*);
-void VMProtectBeginVirtualization(const char*);
-void VMProtectBeginMutation(const char*);
-void VMProtectBeginUltra(const char*);
-void VMProtectEnd(void);
-bool VMProtectIsProtected();
-bool VMProtectIsDebuggerPresent(bool);
-bool VMProtectIsVirtualMachinePresent(void);
-bool VMProtectIsValidImageCRC(void);
-const char* VMProtectDecryptStringA(const char*);
-const wchar_t* VMProtectDecryptStringW(const wchar_t*);
-bool VMProtectFreeString(const void*);
+static void __stdcall VMProtectBegin(const char*)
+{
+
+}
+
+static void __stdcall VMProtectBeginVirtualization(const char*)
+{
+
+}
+
+static void __stdcall VMProtectBeginMutation(const char*)
+{
+
+}
+
+static void __stdcall VMProtectBeginUltra(const char*)
+{
+
+}
+
+static void __stdcall VMProtectEnd(void)
+{
+
+}
+
+static bool __stdcall VMProtectIsProtected()
+{
+	return true;
+}
+
+static bool __stdcall VMProtectIsDebuggerPresent(bool)
+{
+	return false;
+}
+
+static bool __stdcall VMProtectIsVirtualMachinePresent(void)
+{
+	return false;
+}
+
+static bool __stdcall VMProtectIsValidImageCRC(void)
+{
+	return true;
+}
+
+static const char* __stdcall VMProtectDecryptStringA(const char* value)
+{
+	return value;
+}
+
+static const wchar_t* __stdcall VMProtectDecryptStringW(const wchar_t* value)
+{
+	return value;
+}
+
+static bool __stdcall VMProtectFreeString(const void*)
+{
+	return true;
+}
 #endif
 
 class VMProtect
@@ -133,3 +166,36 @@ public:
 		VMProtectEnd();
 	}
 };
+
+inline VMProtect::VMProtect()
+{
+	this->maxCount = sizeof(strings) / sizeof(void*);
+	this->count = 0;
+}
+
+inline VMProtect::~VMProtect()
+{
+	this->Clean();
+}
+
+inline const void* VMProtect::Add(const void* input)
+{
+	this->strings[this->count] = (void*)input;
+	this->count++;
+
+	if (this->count == this->maxCount)
+	{
+		VMProtectFreeString(this->strings[0]);
+		for (size_t i = 1; i < this->count; i++)
+			this->strings[i - 1] = this->strings[i];
+		this->count--;
+	}
+	return input;
+}
+
+inline void VMProtect::Clean()
+{
+	for (size_t i = 0; i < this->count; i++)
+		VMProtectFreeString(this->strings[i]);
+	this->count = 0;
+}

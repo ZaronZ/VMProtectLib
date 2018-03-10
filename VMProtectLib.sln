@@ -3,12 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VMProtectLib", "VMProtectLib\VMProtectLib.vcxproj", "{022CA233-BBD4-4764-A2C0-3B899D0A66B7}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VMProtectLibTest", "VMProtectLibTest\VMProtectLibTest.vcxproj", "{0C79E268-FE40-4289-AE22-DBB4F28BA73C}"
-	ProjectSection(ProjectDependencies) = postProject
-		{022CA233-BBD4-4764-A2C0-3B899D0A66B7} = {022CA233-BBD4-4764-A2C0-3B899D0A66B7}
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,14 +13,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{022CA233-BBD4-4764-A2C0-3B899D0A66B7}.Debug|x64.ActiveCfg = Debug|x64
-		{022CA233-BBD4-4764-A2C0-3B899D0A66B7}.Debug|x64.Build.0 = Debug|x64
-		{022CA233-BBD4-4764-A2C0-3B899D0A66B7}.Debug|x86.ActiveCfg = Debug|Win32
-		{022CA233-BBD4-4764-A2C0-3B899D0A66B7}.Debug|x86.Build.0 = Debug|Win32
-		{022CA233-BBD4-4764-A2C0-3B899D0A66B7}.Release|x64.ActiveCfg = Release|x64
-		{022CA233-BBD4-4764-A2C0-3B899D0A66B7}.Release|x64.Build.0 = Release|x64
-		{022CA233-BBD4-4764-A2C0-3B899D0A66B7}.Release|x86.ActiveCfg = Release|Win32
-		{022CA233-BBD4-4764-A2C0-3B899D0A66B7}.Release|x86.Build.0 = Release|Win32
 		{0C79E268-FE40-4289-AE22-DBB4F28BA73C}.Debug|x64.ActiveCfg = Debug|x64
 		{0C79E268-FE40-4289-AE22-DBB4F28BA73C}.Debug|x64.Build.0 = Debug|x64
 		{0C79E268-FE40-4289-AE22-DBB4F28BA73C}.Debug|x86.ActiveCfg = Debug|Win32

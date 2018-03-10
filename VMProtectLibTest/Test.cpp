@@ -1,6 +1,8 @@
+
 #include <Windows.h>
 #include <stdio.h>
-#include "../VMProtectLib/VMProtectLib.h"
+
+#include "VMProtectLib.h"
 
 void TestMutation()
 {
