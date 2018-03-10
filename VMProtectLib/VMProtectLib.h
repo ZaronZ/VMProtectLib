@@ -14,22 +14,7 @@
 #endif
 #endif
 
-#ifdef VMPROTECT
 #include "VMProtectSDK.h"
-#else
-void VMProtectBegin(const char*);
-void VMProtectBeginVirtualization(const char*);
-void VMProtectBeginMutation(const char*);
-void VMProtectBeginUltra(const char*);
-void VMProtectEnd(void);
-bool VMProtectIsProtected();
-bool VMProtectIsDebuggerPresent(bool);
-bool VMProtectIsVirtualMachinePresent(void);
-bool VMProtectIsValidImageCRC(void);
-const char* VMProtectDecryptStringA(const char*);
-const wchar_t* VMProtectDecryptStringW(const wchar_t*);
-bool VMProtectFreeString(const void*);
-#endif
 
 class VMProtect
 {
