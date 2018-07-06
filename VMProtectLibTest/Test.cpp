@@ -2,7 +2,7 @@
 #include <Windows.h>
 #include <stdio.h>
 
-#include "VMProtectLib.h"
+#include "../VMProtectLib.h"
 
 void TestMutation()
 {

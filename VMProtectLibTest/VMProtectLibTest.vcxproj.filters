@@ -3,7 +3,4 @@
   <ItemGroup>
     <ClCompile Include="Test.cpp" />
   </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="VMProtectLib.h" />
-  </ItemGroup>
 </Project>
